@@ -1,0 +1,144 @@
+﻿@model Audit.Core.Pages.Page
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Parser" asp-action="Create" class="btn btn-primary">
+                Аналіз
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity?.Name != null && Model != null)
+{
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col my-badge">Критичні помилки: <span class="my-badge-red">@ViewBag.TotalDanger</span></div>
+                <div class="col my-badge">Попередження: <span class="my-badge-yellow">@ViewBag.TotalWarning</span></div>
+                <div class="col my-badge">Інформація: <span class="my-badge-blue">@ViewBag.TotalInformation</span></div>
+                <div class="col my-badge">Час сканування: <span class="my-badge-white">3 хв.</span></div>
+                <div class="col my-badge">Проскановано: <span class="my-badge-white">@ViewBag.TotalScanned</span></div>
+                <div class="col my-badge">Середня швидкість: <span class="my-badge-white" style="font-size: 12px">2147 ms</span></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <div class="dropdown-center">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Фільтр
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item @(ViewBag.filter == "danger" ? "active" : "")" href="?filter=danger">Критично</a></li>
+                            <li><a class="dropdown-item @(ViewBag.filter == "warning" ? "active" : "")" href="?filter=warning">Попередження</a></li>
+                            <li><a class="dropdown-item @(ViewBag.filter == "information" ? "active" : "")" href="?filter=information">Інформація</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 mb-3">
+                    <form id="searchForm" asp-controller="Parser" asp-action="Search" method="get" enctype="application/x-www-form-urlencoded">
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="text" name="searchUrl" class="form-control" id="exampleFormControlInput1" placeholder="Пошук по URL">
+                            </div>
+                            <div class="col-4">
+                                <button style="width: 100%" class="btn btn-secondary" type="submit">Пошук</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- КАРТОЧКА-->
+            <div class="card mb-3">
+                <div class="card-header">
+                    @Model.Url
+                </div>
+
+
+                @for (int i = 0; i < Model.Statistic.Rules.Count; i++)
+                {
+                    <div class="card-body">
+                        <div class="card @Model.Statistic.Rules[i].ErrorLevel.ToString().ToLower() mb-1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <p class="card-text">
+                                            @if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Information)
+                                            {
+                                                <span class="bold">Інформація: </span>
+                                            }
+                                            else if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Danger)
+                                            {
+                                                <span class="bold">Критично: </span>
+                                            }
+                                            else if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Warning)
+                                            {
+                                                <span class="bold">Попередження: </span>
+                                            }
+                                            @Model.Statistic.Rules[i].Name
+                                        </p>
+                                    </div>
+                                    <div class="col-1 mb-2">
+                                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse-danger-@i" role="button" aria-expanded="false" aria-controls="collapse-danger-@i">
+                                            Опис
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="collapse" id="collapse-danger-@i">
+                                    <div class="card card-body">
+                                        @Model.Statistic.Rules[i].Description
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- /КАРТОЧКА -->
+        </div>
+
+
+        <!-- НАВІГАЦІЯ -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="?page=1@(ViewBag.filter == "" ? "" : "&filter="+ViewBag.filter)" tabindex="-1">&laquo;</a>
+                </li>
+                <li class="page-item @(ViewBag.page == 1 ? "active" : "")">
+                    <a class="page-link" href="?page=1@(ViewBag.filter == "" ? "" : "&filter="+ViewBag.filter)">1</a>
+                </li>
+                @if (ViewBag.page > 3)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+                @for (int i = 0; i < 10; i++)
+                {
+                    @if (i + ViewBag.page - 1 < ViewBag.totalPages + 1 && i + ViewBag.page - 1 >= 2 && i + ViewBag.page - 1 != ViewBag.totalPages)
+                    {
+                        <li class="page-item @(i+ViewBag.page-1 == ViewBag.page ? "active" : "")"><a class="page-link" href="?page=@(i+ViewBag.page-1)@(ViewBag.filter == "" ? "" : "&filter="+ViewBag.filter)">@(i+ViewBag.page-1)</a></li>
+                    }
+                }
+                @if (ViewBag.page < ViewBag.totalPages - 9)
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                }
+                <li class="page-item @(ViewBag.totalPages == ViewBag.page ? "active" : "")">
+                    <a class="page-link" href="?page=@(ViewBag.totalPages)@(ViewBag.filter == "" ? "" : "&filter="+ViewBag.filter)">@(ViewBag.totalPages)</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page=@(ViewBag.totalPages)@(ViewBag.filter == "" ? "" : "&filter="+ViewBag.filter)">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- НАВІГАЦІЯ -->
+    </div>
+}

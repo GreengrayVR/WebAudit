@@ -1,0 +1,12 @@
+D:\Coding\all\masters\WebAudit\Audit\bin\Debug\net6.0\Audit.deps.json
+D:\Coding\all\masters\WebAudit\Audit\bin\Debug\net6.0\Audit.dll
+D:\Coding\all\masters\WebAudit\Audit\bin\Debug\net6.0\Audit.pdb
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.csproj.AssemblyReference.cache
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.GeneratedMSBuildEditorConfig.editorconfig
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.AssemblyInfoInputs.cache
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.AssemblyInfo.cs
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.csproj.CoreCompileInputs.cache
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.dll
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\refint\Audit.dll
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\Audit.pdb
+D:\Coding\all\masters\WebAudit\Audit\obj\Debug\net6.0\ref\Audit.dll

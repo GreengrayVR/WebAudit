@@ -1,0 +1,77 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.danger {
+    background-color: #ef7569;
+    color: black;
+}
+
+.warning {
+    background-color: #FFC107;
+    color: black;
+}
+
+.information {
+    background-color: #76e5ff;
+    color: black;
+}
+
+.collapse {
+    color: black;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.my-badge {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.my-badge-red {
+    padding-right: 5px;
+    padding-left: 5px;
+    background-color: #ef7569;
+    color: white;
+    border-radius: 5px;
+}
+
+.my-badge-yellow {
+    padding-right: 5px;
+    padding-left: 5px;
+    background-color: #FFC107;
+    color: white;
+    border-radius: 5px;
+}
+
+.my-badge-blue {
+    padding-right: 5px;
+    padding-left: 5px;
+    background-color: #76e5ff;
+    color: white;
+    border-radius: 5px;
+}
+
+.my-badge-white {
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 5px;
+    border: 1px solid lightgrey;
+}

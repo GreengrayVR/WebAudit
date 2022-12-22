@@ -1,0 +1,89 @@
+﻿@model Audit.Core.Pages.Page
+
+@if (Model == null)
+{
+    <form id="searchForm" asp-controller="Parser" asp-action="Search" method="get" enctype="application/x-www-form-urlencoded">
+        <div class="row">
+            <div class="col-10">
+                <input type="text" name="searchUrl" class="form-control" id="exampleFormControlInput1" placeholder="Пошук по URL">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-secondary" type="submit">Пошук</button>
+            </div>
+        </div>
+    </form>
+    <p>Page not found</p>
+}
+
+@if (User.Identity?.Name != null && Model != null)
+{
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 mb-3"></div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4 mb-3">
+                    <form id="searchForm" asp-controller="Parser" asp-action="Search" method="get" enctype="application/x-www-form-urlencoded">
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="text" name="searchUrl" class="form-control" id="exampleFormControlInput1" placeholder="Пошук по URL">
+                            </div>
+                            <div class="col-4">
+                                <button style="width: 100%" class="btn btn-secondary" type="submit">Пошук</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- КАРТОЧКА-->
+            <div class="card mb-3">
+                <div class="card-header">
+                    @Model.Url
+                </div>
+
+
+                @for (int i = 0; i < Model.Statistic.Rules.Count; i++)
+                {
+                    <div class="card-body">
+                        <div class="card @Model.Statistic.Rules[i].ErrorLevel.ToString().ToLower() mb-1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <p class="card-text">
+                                            @if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Information)
+                                            {
+                                                <span class="bold">Інформація: </span>
+                                            }
+                                            else if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Danger)
+                                            {
+                                                <span class="bold">Критично: </span>
+                                            }
+                                            else if (@Model.Statistic.Rules[i].ErrorLevel == Audit.Core.Rules.Error.Warning)
+                                            {
+                                                <span class="bold">Попередження: </span>
+                                            }
+                                            @Model.Statistic.Rules[i].Name
+                                        </p>
+                                    </div>
+                                    <div class="col-1 mb-2">
+                                        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse-danger-@i" role="button" aria-expanded="false" aria-controls="collapse-danger-@i">
+                                            Опис
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="collapse" id="collapse-danger-@i">
+                                    <div class="card card-body">
+                                        @Model.Statistic.Rules[i].Description
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- /КАРТОЧКА -->
+        </div>
+    </div>
+}
